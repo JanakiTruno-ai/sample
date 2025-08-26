@@ -1,23 +1,32 @@
-const express = require('express');
+const express = require("express");
+const cors = require("cors");
+
 const app = express();
+const PORT = process.env.PORT || 3001;
 
+// Enable JSON parsing and CORS
 app.use(express.json());
+app.use(cors());
 
-app.post('/query', (req, res) => {
-    const { user, message, session_id } = req.body;
-    
-    res.json({
-        reply_text: `Hello ${user}! I received your message: "${message}"`,
-        intent: "test_connection",
-        original_message: message
-    });
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.send("Backend is running ✅");
 });
 
-app.get('/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+// Minimal query endpoint
+app.post("/api/query", (req, res) => {
+  const { userQuery, conversationId } = req.body;
+
+  console.log(`[INFO] Received query from conversation ${conversationId}:`, userQuery);
+
+  // For testing, just echo back
+  res.json({
+    type: "text",
+    content: `Received your query: "${userQuery}". Backend is connected!`
+  });
 });
 
-const PORT = process.env.PORT || 8080;
+// Start server
 app.listen(PORT, () => {
-    console.log(`Backend server running on port ${PORT}`);
+  console.log(`Backend server running on port ${PORT}`);
 });
