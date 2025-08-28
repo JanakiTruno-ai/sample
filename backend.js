@@ -30,10 +30,10 @@ app.post("/api/query", async (req, res) => {
     conversationId
   }));
 
-  // 👉 Stub: just echo back
+  // 👉 Instead of echoing, return a clear demo message
   res.json({
     type: "text",
-    content: `You asked: "${userQuery}". (Conversation: ${conversationId})`
+    content: `**Hi frontend 👋**\n\nI am responding from the backend running on **Cloud Run** 🚀`
   });
 });
 
