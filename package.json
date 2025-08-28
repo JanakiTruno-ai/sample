@@ -1,14 +1,12 @@
 {
-  "name": "analytics-bot-backend",
+  "name": "teams-backend",
   "version": "1.0.0",
   "main": "backend.js",
   "scripts": {
     "start": "node backend.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
-  },
-  "engines": {
-    "node": ">=18"
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2"
   }
 }
