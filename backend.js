@@ -1,32 +1,30 @@
+// backend.js
 const express = require("express");
-const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+app.use(bodyParser.json());
 
-// Enable JSON parsing and CORS
-app.use(express.json());
-app.use(cors());
-
-// Health check endpoint
+// ✅ Health check route
 app.get("/", (req, res) => {
-  res.send("Backend is running ✅");
+  res.send("✅ Backend is running on Cloud Run!");
 });
 
-// Minimal query endpoint
-app.post("/api/query", (req, res) => {
+// ✅ Query endpoint (what your Teams bot calls)
+app.post("/api/query", async (req, res) => {
   const { userQuery, conversationId } = req.body;
 
-  console.log(`[INFO] Received query from conversation ${conversationId}:`, userQuery);
+  console.log("[DEBUG] Incoming query:", { userQuery, conversationId });
 
-  // For testing, just echo back
+  // 👉 For now, just echo back the query
   res.json({
     type: "text",
-    content: `Received your query: "${userQuery}". Backend is connected!`
+    content: `You asked: "${userQuery}". (Conversation: ${conversationId})`
   });
 });
 
-// Start server
+// ✅ Cloud Run expects PORT from env
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Backend server running on port ${PORT}`);
+  console.log(`🚀 Backend running on port ${PORT}`);
 });
